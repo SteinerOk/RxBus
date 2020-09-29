@@ -16,7 +16,7 @@ public class RxBus {
     /**
      * Get the instance of {@link Bus}
      *
-     * @return
+     * @return Bus
      */
     public static synchronized Bus get() {
         if (sBus == null) {

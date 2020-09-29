@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import rx.functions.Action1;
+import io.reactivex.rxjava3.functions.Consumer;
 
 import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
@@ -37,9 +37,9 @@ public class EventProducerTest {
     public void basicMethodCall() throws Exception {
         Method method = getRecordingMethod();
         ProducerEvent producer = new ProducerEvent(this, method, EventThread.MAIN_THREAD);
-        producer.produce().subscribe(new Action1() {
+        producer.produce().subscribe(new Consumer() {
             @Override
-            public void call(Object methodResult) {
+            public void accept(Object methodResult) {
                 assertTrue("Producer must call provided method.", methodCalled);
                 assertSame("Producer result must be *exactly* the specified return value.", methodResult, FIXTURE_RETURN_VALUE);
             }
@@ -107,9 +107,9 @@ public class EventProducerTest {
         producer.produce().subscribe();
         methodReturnValue = new Object();
         methodCalled = false;
-        producer.produce().subscribe(new Action1() {
+        producer.produce().subscribe(new Consumer() {
             @Override
-            public void call(Object secondReturnValue) {
+            public void accept(Object secondReturnValue) {
                 assertTrue("Producer must call provided method twice.", methodCalled);
                 assertSame("Producer result must be *exactly* the specified return value on each invocation.",
                         secondReturnValue, methodReturnValue);

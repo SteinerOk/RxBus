@@ -34,15 +34,15 @@ ext {
 ext.deps = [
         // Test Dependencies
         junit             : 'junit:junit:4.13',
-        assertjcore       : 'org.assertj:assertj-core:1.7.1',
-        robolectric       : 'org.robolectric:robolectric:3.6.2',
+        assertjcore       : 'org.assertj:assertj-core:3.17.2',
+        robolectric       : 'org.robolectric:robolectric:4.4',
 
         // dependencies
-        appcompatV7       : 'com.android.support:appcompat-v7:28.0.0',
-        androidannotations: 'com.android.support:support-annotations:28.0.0',
-        design            : 'com.android.support:design:28.0.0',
+        appcompat         : 'androidx.appcompat:appcompat:1.2.0',
+        androidannotations: 'androidx.annotation:annotation:1.1.0',
+        mdc               : 'com.google.android.material:material:1.2.0',
 
-        rxandroid         : 'io.reactivex.rxjava2:rxandroid:2.1.1',
-        rxjava            : 'io.reactivex.rxjava2:rxjava:2.2.19',
+        rxandroid         : 'io.reactivex.rxjava3:rxandroid:3.0.0',
+        rxjava            : 'io.reactivex.rxjava3:rxjava:3.0.6',
         timber            : 'com.jakewharton.timber:timber:4.7.1',
 ]

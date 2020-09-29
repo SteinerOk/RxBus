@@ -2,14 +2,15 @@ package com.hwangjr.rxbus.entity;
 
 import com.hwangjr.rxbus.thread.EventThread;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableOnSubscribe;
+import io.reactivex.rxjava3.core.Observable;
 
 /**
  * Wraps a 'producer' method on a specific object.
@@ -75,16 +76,14 @@ public class ProducerEvent extends Event {
     /**
      * Invokes the wrapped producer method and produce a {@link Observable}.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public Flowable produce() {
-        return Flowable.create(new FlowableOnSubscribe() {
-            @Override
-            public void subscribe(FlowableEmitter emitter) throws Exception {
-                try {
-                    emitter.onNext(produceEvent());
-                    emitter.onComplete();
-                } catch (InvocationTargetException e) {
-                    throwRuntimeException("Producer " + ProducerEvent.this + " threw an exception.", e);
-                }
+        return Flowable.create((FlowableOnSubscribe) emitter -> {
+            try {
+                emitter.onNext(produceEvent());
+                emitter.onComplete();
+            } catch (InvocationTargetException e) {
+                throwRuntimeException("Producer " + ProducerEvent.this + " threw an exception.", e);
             }
         }, BackpressureStrategy.BUFFER).subscribeOn(EventThread.getScheduler(thread));
     }
@@ -112,6 +111,7 @@ public class ProducerEvent extends Event {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "[EventProducer " + method + "]";

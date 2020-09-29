@@ -12,7 +12,9 @@ import com.hwangjr.rxbus.thread.ThreadEnforcer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -21,8 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import rx.Subscriber;
-import rx.functions.Action1;
+import io.reactivex.rxjava3.functions.Consumer;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -32,8 +33,8 @@ import static junit.framework.Assert.fail;
 /**
  * Test case for {@link Bus}.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 16)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 16)
 public class BusTest {
     private static final String EVENT = "Hello World!";
     private static final String BUS_IDENTIFIER = "test-bus";
@@ -361,6 +362,12 @@ public class BusTest {
         bus.register(new ExceptionThrowingProducer());
         ProducerEvent event = bus.getProducerForEventType(new EventType(Tag.DEFAULT, String.class));
         event.produce().subscribe(new Subscriber() {
+
+            @Override
+            public void onSubscribe(Subscription s) {
+                //
+            }
+
             @Override
             public void onNext(Object o) {
                 fail("Should have failed due to exception-throwing producer.");
@@ -373,7 +380,7 @@ public class BusTest {
             }
 
             @Override
-            public void onCompleted() {
+            public void onComplete() {
                 fail("Should have failed due to exception-throwing producer.");
             }
         });
@@ -385,9 +392,9 @@ public class BusTest {
         Set<SubscriberEvent> events = bus.getSubscribersForEventType(new EventType(Tag.DEFAULT, String.class));
         assertEquals("The subscribers should be registered.", 1, events.size());
         for (SubscriberEvent event : events) {
-            event.getSubject().doOnError(new Action1<Throwable>() {
+            event.getSubject().doOnError(new Consumer<Throwable>() {
                 @Override
-                public void call(Throwable throwable) {
+                public void accept(Throwable throwable) {
                     // Expected
                     assertEquals(throwable.getClass(), IllegalStateException.class);
                 }

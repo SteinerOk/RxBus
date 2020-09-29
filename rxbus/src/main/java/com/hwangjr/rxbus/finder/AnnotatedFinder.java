@@ -85,7 +85,7 @@ public final class AnnotatedFinder {
                 Subscribe annotation = method.getAnnotation(Subscribe.class);
                 EventThread thread = annotation.thread();
                 Tag[] tags = annotation.tags();
-                int tagLength = (tags == null ? 0 : tags.length);
+                int tagLength = tags.length;
                 do {
                     String tag = Tag.DEFAULT;
                     if (tagLength > 0) {
@@ -128,7 +128,7 @@ public final class AnnotatedFinder {
                 Produce annotation = method.getAnnotation(Produce.class);
                 EventThread thread = annotation.thread();
                 Tag[] tags = annotation.tags();
-                int tagLength = (tags == null ? 0 : tags.length);
+                int tagLength = tags.length;
                 do {
                     String tag = Tag.DEFAULT;
                     if (tagLength > 0) {

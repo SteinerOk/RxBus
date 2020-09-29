@@ -5,6 +5,8 @@ import com.hwangjr.rxbus.annotation.Produce;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 
 /**
@@ -52,6 +54,7 @@ class WhiteMouse implements Mouse {
         RxBus.get().post(Constants.EventType.TAG_STORY, this);
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "White Mouse: " + super.toString();
@@ -67,6 +70,7 @@ class BlackMouse implements Mouse {
         RxBus.get().post(Constants.EventType.TAG_STORY, this);
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Black Mouse: " + super.toString();
@@ -82,6 +86,7 @@ class DeadMouse implements Mouse {
         RxBus.get().post(this);
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Dead Mouse: " + super.toString();

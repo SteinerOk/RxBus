@@ -9,17 +9,24 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         consumerProguardFiles('proguard-rules.pro')
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+    implementation deps.androidannotations
+    implementation deps.timber
+    implementation deps.rxjava
+    implementation deps.rxandroid
+
+    implementation "org.jetbrains:annotations:16.0.1"
+
     testImplementation deps.junit
     testImplementation deps.assertjcore
     testImplementation deps.robolectric
-
-    api deps.rxjava
-    api deps.rxandroid
-    api deps.timber
-    api deps.androidannotations
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

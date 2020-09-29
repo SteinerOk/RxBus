@@ -1,5 +1,7 @@
 package com.hwangjr.rxbus.entity;
 
+import org.jetbrains.annotations.NotNull;
+
 public class EventType {
 
     /**
@@ -34,6 +36,7 @@ public class EventType {
         hashCode = (prime + tag.hashCode()) * prime + clazz.hashCode();
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "[EventType " + tag + " && " + clazz + "]";

@@ -7,6 +7,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public interface ThreadHandler {
+
     ThreadHandler DEFAULT = new ThreadHandler() {
         private Executor executor;
         private Handler handler;

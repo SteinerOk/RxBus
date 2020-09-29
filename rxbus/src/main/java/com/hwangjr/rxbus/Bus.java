@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
@@ -231,6 +231,7 @@ public class Bus {
         }
     }
 
+    @SuppressWarnings({"unchecked", "ResultOfMethodCallIgnored", "rawtypes"})
     private void dispatchProducerResult(final SubscriberEvent subscriberEvent, ProducerEvent producer) {
         producer.produce().subscribe(new Consumer() {
             @Override
