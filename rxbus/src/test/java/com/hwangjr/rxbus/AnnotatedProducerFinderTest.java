@@ -22,31 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("UnusedDeclaration")
 public class AnnotatedProducerFinderTest {
 
-    static class Subscriber {
-        final List<Object> events = new ArrayList<Object>();
-
-        @Subscribe(
-                thread = EventThread.SINGLE
-        )
-        public void subscribe(Object o) {
-            events.add(o);
-        }
-    }
-
-    static class SimpleProducer {
-        static final Object VALUE = new Object();
-
-        int produceCalled = 0;
-
-        @Produce(
-                thread = EventThread.SINGLE
-        )
-        public Object produceIt() {
-            produceCalled += 1;
-            return VALUE;
-        }
-    }
-
     @Test
     public void simpleProducer() {
         Bus bus = new Bus(ThreadEnforcer.ANY);
@@ -70,5 +45,30 @@ public class AnnotatedProducerFinderTest {
         assertThat(producer.produceCalled).isEqualTo(1);
         bus.register(new Subscriber());
         assertThat(producer.produceCalled).isEqualTo(2);
+    }
+
+    static class Subscriber {
+        final List<Object> events = new ArrayList<Object>();
+
+        @Subscribe(
+                thread = EventThread.SINGLE
+        )
+        public void subscribe(Object o) {
+            events.add(o);
+        }
+    }
+
+    static class SimpleProducer {
+        static final Object VALUE = new Object();
+
+        int produceCalled = 0;
+
+        @Produce(
+                thread = EventThread.SINGLE
+        )
+        public Object produceIt() {
+            produceCalled += 1;
+            return VALUE;
+        }
     }
 }

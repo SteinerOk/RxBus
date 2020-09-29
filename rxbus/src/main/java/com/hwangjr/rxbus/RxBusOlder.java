@@ -19,14 +19,14 @@ public class RxBusOlder {
 
     private ConcurrentHashMap<Object, List<Subject>> mSubjectsMapper = new ConcurrentHashMap<>();
 
+    private RxBusOlder() {
+    }
+
     public static synchronized RxBusOlder instance() {
         if (sInstance == null) {
             sInstance = new RxBusOlder();
         }
         return sInstance;
-    }
-
-    private RxBusOlder() {
     }
 
     public <T> Observable<T> register(@NonNull Object tag, @NonNull Class<T> clazz) {

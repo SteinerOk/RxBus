@@ -145,15 +145,15 @@ public class EventProducerTest {
         throw new IntentionalException();
     }
 
+    public Object errorThrowingMethod() {
+        throw new JudgmentError();
+    }
+
     /**
      * Local exception subclass to check variety of exception thrown.
      */
     static class IntentionalException extends Exception {
         private static final long serialVersionUID = -2500191180248181379L;
-    }
-
-    public Object errorThrowingMethod() {
-        throw new JudgmentError();
     }
 
     /**

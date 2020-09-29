@@ -34,6 +34,10 @@ public final class AnnotatedFinder {
     private static final ConcurrentMap<Class<?>, Map<EventType, Set<SourceMethod>>> SUBSCRIBERS_CACHE =
             new ConcurrentHashMap<>();
 
+    private AnnotatedFinder() {
+        // No instances.
+    }
+
     private static void loadAnnotatedProducerMethods(Class<?> listenerClass,
                                                      Map<EventType, SourceMethod> producerMethods) {
         Map<EventType, Set<SourceMethod>> subscriberMethods = new HashMap<>();
@@ -189,10 +193,6 @@ public final class AnnotatedFinder {
         }
 
         return subscribersInMethod;
-    }
-
-    private AnnotatedFinder() {
-        // No instances.
     }
 
     private static class SourceMethod {

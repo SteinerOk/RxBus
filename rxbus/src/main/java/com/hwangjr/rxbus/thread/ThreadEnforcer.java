@@ -10,14 +10,6 @@ import com.hwangjr.rxbus.Bus;
 public interface ThreadEnforcer {
 
     /**
-     * Enforce a valid thread for the given {@code bus}. Implementations may throw any runtime exception.
-     *
-     * @param bus Event bus instance on which an action is being performed.
-     */
-    void enforce(Bus bus);
-
-
-    /**
      * A {@link ThreadEnforcer} that does no verification.
      */
     ThreadEnforcer ANY = new ThreadEnforcer() {
@@ -26,7 +18,6 @@ public interface ThreadEnforcer {
             // Allow any thread.
         }
     };
-
     /**
      * A {@link ThreadEnforcer} that confines {@link Bus} methods to the main thread.
      */
@@ -38,5 +29,12 @@ public interface ThreadEnforcer {
             }
         }
     };
+
+    /**
+     * Enforce a valid thread for the given {@code bus}. Implementations may throw any runtime exception.
+     *
+     * @param bus Event bus instance on which an action is being performed.
+     */
+    void enforce(Bus bus);
 
 }

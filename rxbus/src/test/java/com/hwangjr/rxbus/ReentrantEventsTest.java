@@ -35,6 +35,20 @@ public class ReentrantEventsTest {
                 Arrays.<Object>asList(FIRST, SECOND), hater.eventsReceived);
     }
 
+    @Test
+    public void eventOrderingIsPredictable() {
+        EventProcessor processor = new EventProcessor();
+        bus.register(processor);
+
+        EventRecorder recorder = new EventRecorder();
+        bus.register(recorder);
+
+        bus.post(FIRST);
+
+        assertEquals("EventRecorder expected events in order",
+                Arrays.<Object>asList(FIRST, SECOND), recorder.eventsReceived);
+    }
+
     public class ReentrantEventsHater {
         boolean ready = true;
         List<Object> eventsReceived = new ArrayList<Object>();
@@ -59,20 +73,6 @@ public class ReentrantEventsTest {
             assertTrue("I received an event when I wasn't ready!", ready);
             eventsReceived.add(event);
         }
-    }
-
-    @Test
-    public void eventOrderingIsPredictable() {
-        EventProcessor processor = new EventProcessor();
-        bus.register(processor);
-
-        EventRecorder recorder = new EventRecorder();
-        bus.register(recorder);
-
-        bus.post(FIRST);
-
-        assertEquals("EventRecorder expected events in order",
-                Arrays.<Object>asList(FIRST, SECOND), recorder.eventsReceived);
     }
 
     public class EventProcessor {

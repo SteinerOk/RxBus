@@ -2,6 +2,8 @@ package com.hwangjr.rxbus.entity;
 
 import com.hwangjr.rxbus.thread.EventThread;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -33,13 +35,13 @@ public class SubscriberEvent extends Event {
      */
     private final EventThread thread;
     /**
-     * RxJava {@link Subject}
-     */
-    private Subject subject;
-    /**
      * Object hash code.
      */
     private final int hashCode;
+    /**
+     * RxJava {@link Subject}
+     */
+    private Subject subject;
     /**
      * Should this Subscriber receive events?
      */
@@ -130,6 +132,7 @@ public class SubscriberEvent extends Event {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "[SubscriberEvent " + method + "]";

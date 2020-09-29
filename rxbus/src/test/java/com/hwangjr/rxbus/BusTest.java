@@ -396,29 +396,30 @@ public class BusTest {
         bus.post("I love it");
     }
 
-    private class ExceptionThrowingProducer {
-        @Produce
-        public String produceThingsExceptionally() {
-            throw new IllegalStateException("Bogus!");
-        }
-    }
-
-    private class DummySubscriber {
-        @Subscribe
-        public void subscribeToString(String value) {
-        }
-    }
-
-    private class ExceptionThrowingSubscriber {
-        @Subscribe
-        public void subscribeToString(String value) {
-            throw new IllegalStateException("Dude where's my cake?");
-        }
-    }
-
     private <T> void assertContains(T element, Collection<T> collection) {
         assertTrue("Collection must contain " + element,
                 collection.contains(element));
+    }
+
+    @Test
+    public void ignoreSyntheticBridgeMethods() {
+        SubscriberImpl catcher = new SubscriberImpl();
+        bus.register(catcher);
+        bus.post(EVENT);
+    }
+
+    public interface HierarchyFixtureInterface {
+        // Exists only for hierarchy mapping; no members.
+    }
+
+    public interface HierarchyFixtureSubinterface
+            extends HierarchyFixtureInterface {
+        // Exists only for hierarchy mapping; no members.
+    }
+
+    interface SubscriberInterface<T> {
+        @Subscribe
+        void subscribeToT(T value);
     }
 
     /**
@@ -449,15 +450,6 @@ public class BusTest {
         }
     }
 
-    public interface HierarchyFixtureInterface {
-        // Exists only for hierarchy mapping; no members.
-    }
-
-    public interface HierarchyFixtureSubinterface
-            extends HierarchyFixtureInterface {
-        // Exists only for hierarchy mapping; no members.
-    }
-
     public static class HierarchyFixtureParent
             implements HierarchyFixtureSubinterface {
         // Exists only for hierarchy mapping; no members.
@@ -465,11 +457,6 @@ public class BusTest {
 
     public static class HierarchyFixture extends HierarchyFixtureParent {
         // Exists only for hierarchy mapping; no members.
-    }
-
-    interface SubscriberInterface<T> {
-        @Subscribe
-        void subscribeToT(T value);
     }
 
     static class SubscriberImpl implements SubscriberInterface<Number> {
@@ -484,11 +471,24 @@ public class BusTest {
         // As of java 8, the @Subscribe annotation will be copied over to the bridge method.
     }
 
-    @Test
-    public void ignoreSyntheticBridgeMethods() {
-        SubscriberImpl catcher = new SubscriberImpl();
-        bus.register(catcher);
-        bus.post(EVENT);
+    private class ExceptionThrowingProducer {
+        @Produce
+        public String produceThingsExceptionally() {
+            throw new IllegalStateException("Bogus!");
+        }
+    }
+
+    private class DummySubscriber {
+        @Subscribe
+        public void subscribeToString(String value) {
+        }
+    }
+
+    private class ExceptionThrowingSubscriber {
+        @Subscribe
+        public void subscribeToString(String value) {
+            throw new IllegalStateException("Dude where's my cake?");
+        }
     }
 
 }

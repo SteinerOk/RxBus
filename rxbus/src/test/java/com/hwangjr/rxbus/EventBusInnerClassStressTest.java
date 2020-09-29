@@ -15,17 +15,11 @@ import static junit.framework.Assert.assertTrue;
 public class EventBusInnerClassStressTest {
     public static final int REPS = 1000000;
     boolean called;
-
-    class Sub {
-        @Subscribe(
-                thread = EventThread.SINGLE
-        )
-        public void in(Object o) {
-            called = true;
-        }
-    }
-
     Sub sub = new Sub();
+
+    private static String nextEvent(int i) {
+        return "" + i;
+    }
 
     @Test
     public void eventBusOkayWithNonStaticInnerClass() {
@@ -80,7 +74,12 @@ public class EventBusInnerClassStressTest {
         }
     }
 
-    private static String nextEvent(int i) {
-        return "" + i;
+    class Sub {
+        @Subscribe(
+                thread = EventThread.SINGLE
+        )
+        public void in(Object o) {
+            called = true;
+        }
     }
 }

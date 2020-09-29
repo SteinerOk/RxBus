@@ -9,6 +9,8 @@ import com.hwangjr.rxbus.entity.SubscriberEvent;
 import com.hwangjr.rxbus.finder.Finder;
 import com.hwangjr.rxbus.thread.ThreadEnforcer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,7 +22,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import io.reactivex.functions.Consumer;
-
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
@@ -153,6 +154,7 @@ public class Bus {
         this.finder = finder;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "[Bus \"" + identifier + "\"]";
